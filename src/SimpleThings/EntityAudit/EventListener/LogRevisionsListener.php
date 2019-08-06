@@ -110,7 +110,7 @@ class LogRevisionsListener implements EventSubscriber
 
     public function getSubscribedEvents()
     {
-        return array(Events::onFlush, Events::postPersist, Events::postUpdate, Events::postFlush);
+        return array(Events::onFlush, Events::postPersist, Events::postUpdate, Events::postFlush, Events::onClear);
     }
 
     /**
@@ -208,6 +208,11 @@ class LogRevisionsListener implements EventSubscriber
         }
 
         $this->entityUpdates[spl_object_hash($entity)] = $entity;
+    }
+
+    public function onClear()
+    {
+        $this->extraUpdates = array();
     }
 
     /**
